@@ -6,8 +6,10 @@ import com.org.vetconnect.platform.vetservices.domain.model.queries.GetVetServic
 import com.org.vetconnect.platform.vetservices.domain.services.VetServiceCommandService;
 import com.org.vetconnect.platform.vetservices.domain.services.VetServiceQueryService;
 import com.org.vetconnect.platform.vetservices.interfaces.rest.resources.CreateVetServiceResource;
+import com.org.vetconnect.platform.vetservices.interfaces.rest.resources.UpdateVetServiceResource;
 import com.org.vetconnect.platform.vetservices.interfaces.rest.resources.VetServiceResource;
 import com.org.vetconnect.platform.vetservices.interfaces.rest.transform.CreateVetServiceCommandFromResourceAssembler;
+import com.org.vetconnect.platform.vetservices.interfaces.rest.transform.UpdateVetServiceCommandFromResourceAssembler;
 import com.org.vetconnect.platform.vetservices.interfaces.rest.transform.VetServiceResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -62,6 +64,15 @@ public class VetServicesController {
     public ResponseEntity<VetServiceResource> getVetServiceById(@PathVariable Long vetServiceId) {
         var getVetServiceByIdQuery = new GetVetServiceByIdQuery(vetServiceId);
         var vetService = vetServiceQueryService.handle(getVetServiceByIdQuery);
+        if (vetService.isEmpty()) return ResponseEntity.badRequest().build();
+        var vetServiceResource = VetServiceResourceFromEntityAssembler.toResourceFromEntity(vetService.get());
+        return ResponseEntity.ok(vetServiceResource);
+    }
+
+    @PutMapping("/{vetServiceId}")
+    public ResponseEntity<VetServiceResource> updateVetService(@PathVariable Long vetServiceId, @RequestBody UpdateVetServiceResource resource) {
+        var updateVetServiceCommand = UpdateVetServiceCommandFromResourceAssembler.toCommandFromResource(resource);
+        var vetService = vetServiceCommandService.handle(updateVetServiceCommand);
         if (vetService.isEmpty()) return ResponseEntity.badRequest().build();
         var vetServiceResource = VetServiceResourceFromEntityAssembler.toResourceFromEntity(vetService.get());
         return ResponseEntity.ok(vetServiceResource);
