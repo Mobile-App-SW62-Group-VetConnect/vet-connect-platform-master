@@ -2,6 +2,7 @@ package com.org.vetconnect.platform.vetservices.interfaces.rest;
 
 
 import com.org.vetconnect.platform.vetservices.domain.model.queries.GetAllVetServicesQuery;
+import com.org.vetconnect.platform.vetservices.domain.model.queries.GetVetServiceByIdQuery;
 import com.org.vetconnect.platform.vetservices.domain.services.VetServiceCommandService;
 import com.org.vetconnect.platform.vetservices.domain.services.VetServiceQueryService;
 import com.org.vetconnect.platform.vetservices.interfaces.rest.resources.CreateVetServiceResource;
@@ -55,6 +56,15 @@ public class VetServicesController {
                 .map(VetServiceResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(vetServiceResources, HttpStatus.OK);
+    }
+
+    @GetMapping("/{vetServiceId}")
+    public ResponseEntity<VetServiceResource> getVetServiceById(@PathVariable Long vetServiceId) {
+        var getVetServiceByIdQuery = new GetVetServiceByIdQuery(vetServiceId);
+        var vetService = vetServiceQueryService.handle(getVetServiceByIdQuery);
+        if (vetService.isEmpty()) return ResponseEntity.badRequest().build();
+        var vetServiceResource = VetServiceResourceFromEntityAssembler.toResourceFromEntity(vetService.get());
+        return ResponseEntity.ok(vetServiceResource);
     }
 
 }
