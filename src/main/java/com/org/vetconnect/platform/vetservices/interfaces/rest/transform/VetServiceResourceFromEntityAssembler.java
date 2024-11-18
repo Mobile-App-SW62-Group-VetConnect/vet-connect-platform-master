@@ -5,6 +5,6 @@ import com.org.vetconnect.platform.vetservices.interfaces.rest.resources.VetServ
 
 public class VetServiceResourceFromEntityAssembler {
     public static VetServiceResource toResourceFromEntity(VetService entity) {
-        return new VetServiceResource(entity.getName(), entity.getDescription(), entity.getPrice(), entity.getDuration(), entity.getCategory(), entity.getFeatures(), entity.getIsActive());
+        return new VetServiceResource(entity.getId(), entity.getName(), entity.getDescription(), entity.getPrice(), entity.getDuration(), entity.getCategory(), entity.getFeatures(), entity.getIsActive());
     }
 }
