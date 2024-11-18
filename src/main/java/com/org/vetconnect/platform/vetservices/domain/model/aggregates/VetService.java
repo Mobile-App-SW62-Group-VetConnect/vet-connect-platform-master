@@ -40,13 +40,10 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
     @Size(max = 255)
     private String description;
 
-    @NotBlank
     private Double price;
 
-    @NotBlank
     private Integer duration;
 
-    @NotBlank
     private ServiceCategory category;
 
     private List<String> features;
