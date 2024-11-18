@@ -71,7 +71,7 @@ public class VetServicesController {
 
     @PutMapping("/{vetServiceId}")
     public ResponseEntity<VetServiceResource> updateVetService(@PathVariable Long vetServiceId, @RequestBody UpdateVetServiceResource resource) {
-        var updateVetServiceCommand = UpdateVetServiceCommandFromResourceAssembler.toCommandFromResource(resource);
+        var updateVetServiceCommand = UpdateVetServiceCommandFromResourceAssembler.toCommandFromResource(resource, vetServiceId);
         var vetService = vetServiceCommandService.handle(updateVetServiceCommand);
         if (vetService.isEmpty()) return ResponseEntity.badRequest().build();
         var vetServiceResource = VetServiceResourceFromEntityAssembler.toResourceFromEntity(vetService.get());
