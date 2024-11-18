@@ -1,16 +1,20 @@
 package com.org.vetconnect.platform.vetservices.domain.model.aggregates;
 
 import com.org.vetconnect.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.org.vetconnect.platform.vetservices.domain.model.commands.CreateVetServiceCommand;
 import com.org.vetconnect.platform.vetservices.domain.model.valueobjects.ServiceCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
 
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class VetService extends AuditableAbstractAggregateRoot<VetService> {
@@ -69,8 +73,15 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
         this.isActive = isActive;
     }
 
-
-
+    public VetService(CreateVetServiceCommand command){
+        this.name = command.name();
+        this.description = command.description();
+        this.price = command.price();
+        this.duration = command.duration();
+        this.category = command.category();
+        this.features = command.features();
+        this.isActive = command.isActive();
+    }
 
     /**
      * Updates the course information.
