@@ -1,4 +1,4 @@
 package com.org.vetconnect.platform.favorites.domain.model.queries;
 
-public class GetFavoriteByIdQuery {
+public record GetFavoriteByIdQuery(String idFavorite) {
 }
