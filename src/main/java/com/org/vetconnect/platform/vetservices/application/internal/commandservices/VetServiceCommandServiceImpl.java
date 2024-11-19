@@ -1,5 +1,6 @@
 package com.org.vetconnect.platform.vetservices.application.internal.commandservices;
 
+import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.VetCenterRepository;
 import com.org.vetconnect.platform.vetservices.domain.model.aggregates.VetService;
 import com.org.vetconnect.platform.vetservices.domain.model.commands.CreateVetServiceCommand;
 import com.org.vetconnect.platform.vetservices.domain.model.commands.UpdateVetServiceCommand;
@@ -13,16 +14,20 @@ import java.util.Optional;
 public class VetServiceCommandServiceImpl implements VetServiceCommandService {
 
     private final VetServiceRepository vetServiceRepository;
+    private final VetCenterRepository vetCenterRepository;
 
-    public VetServiceCommandServiceImpl(VetServiceRepository vetServiceRepository) {
+    public VetServiceCommandServiceImpl(VetServiceRepository vetServiceRepository, VetCenterRepository vetCenterRepository) {
         this.vetServiceRepository = vetServiceRepository;
+        this.vetCenterRepository = vetCenterRepository;
     }
 
     @Override
     public Optional<VetService> handle(CreateVetServiceCommand command) {
-        var VetSercice = new VetService(command);
-        vetServiceRepository.save(VetSercice);
-        return Optional.of(VetSercice);
+        var vetCenter = vetCenterRepository.findById(command.vetId());
+        if (vetCenter.isEmpty()) throw new IllegalArgumentException("VetCenter does not exist");
+        var VetService = new VetService(vetCenter.get(), command.name(), command.description(), command.price(), command.duration(), command.category(), command.features(), command.isActive());
+        vetServiceRepository.save(VetService);
+        return Optional.of(VetService);
     }
 
     @Override

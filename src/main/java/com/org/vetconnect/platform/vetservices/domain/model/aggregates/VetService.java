@@ -1,10 +1,10 @@
 package com.org.vetconnect.platform.vetservices.domain.model.aggregates;
 
+import com.org.vetconnect.platform.profiles.domain.model.aggregates.VetCenter;
 import com.org.vetconnect.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.org.vetconnect.platform.vetservices.domain.model.commands.CreateVetServiceCommand;
 import com.org.vetconnect.platform.vetservices.domain.model.valueobjects.ServiceCategory;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -32,6 +32,10 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
     * */
 
 
+    @ManyToOne
+    @JoinColumn(name = "vetcenter_id")
+    private VetCenter vetCenter;
+
     @NotBlank
     @Size(max = 50)
     private String name;
@@ -51,6 +55,7 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
     private Boolean isActive;
 
     public VetService(){
+        this.vetCenter = new VetCenter();
         this.name = "";
         this.description = "";
         this.price = 0.0;
@@ -60,7 +65,8 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
         this.isActive = false;
     }
 
-    public VetService(String name, String description, Double price, Integer duration, ServiceCategory category, List<String> features, Boolean isActive){
+    public VetService(VetCenter vetCenter, String name, String description, Double price, Integer duration, ServiceCategory category, List<String> features, Boolean isActive){
+        this.vetCenter = vetCenter;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -71,6 +77,7 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
     }
 
     public VetService(CreateVetServiceCommand command){
+        this.vetCenter = new VetCenter();
         this.name = command.name();
         this.description = command.description();
         this.price = command.price();
