@@ -13,7 +13,9 @@ public class UpdateVetCenterCommandFromResourceAssembler {
                     resource.ruc(),
                     resource.phone(),
                     resource.imageProfile(),
-                    resource.description()
+                    resource.description(),
+                    resource.address(),
+                    resource.businessHours()
             );
             return command;
         }

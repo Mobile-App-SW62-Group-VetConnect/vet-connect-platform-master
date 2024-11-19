@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Embeddable
-public class BusinessHours {
+public class BusinessHour {
 
     @Getter
     @Setter
@@ -19,9 +19,9 @@ public class BusinessHours {
     @Setter
     private String close;
 
-    public BusinessHours() {}
+    public BusinessHour() {}
 
-    public BusinessHours(String days, String open, String close) {
+    public BusinessHour(String days, String open, String close) {
         this.days = days;
         this.open = open;
         this.close = close;

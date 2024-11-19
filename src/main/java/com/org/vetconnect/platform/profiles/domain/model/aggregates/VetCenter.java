@@ -1,17 +1,12 @@
 package com.org.vetconnect.platform.profiles.domain.model.aggregates;
 
+import com.org.vetconnect.platform.iam.domain.model.aggregates.User;
 import com.org.vetconnect.platform.profiles.domain.model.entities.VetCenterImage;
-import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterEmail;
-import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterName;
-import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterPhone;
-import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterRUC;
+import com.org.vetconnect.platform.profiles.domain.model.valueobjects.*;
 import com.org.vetconnect.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
@@ -43,10 +38,13 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
 
     @OneToMany(mappedBy = "vetCenter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VetCenterImage> images = new ArrayList<>();
-    /*
-    @Setter
-    private String vetCenterServices; // seria un record (porque tiene 4 servicios) y cada servicio tiene un nombre y un precio
-    */
+
+
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
+
+
 
     @Getter
     @Setter
@@ -54,15 +52,48 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
 
     @Getter
     @Setter
+    private String vetCenterWebsite;
+
+    @Getter
+    @Setter
     private String vetCenterDescription;
 
-    public VetCenter(String name, String email, Long ruc, Long phone, String imageProfile, String description){
+    @Getter
+    @Setter
+    private String address;
+
+
+    @Getter
+    @Setter
+    private String license;
+
+    @Getter
+    @Setter
+    @ElementCollection
+    @CollectionTable(name = "vet_center_business_hours", joinColumns = @JoinColumn(name = "vet_center_id"))
+    private List<BusinessHour> businessHours = new ArrayList<>();
+
+
+    public VetCenter(String name, String email, String ruc, String phone, String imageProfile, String description){
         this.vetCenterName = new VetCenterName(name);
         this.vetCenterEmail = new VetCenterEmail(email);
         this.vetCenterRUC = new VetCenterRUC(ruc);
         this.vetCenterPhone = new VetCenterPhone(phone);
         this.vetCenterImageProfile = imageProfile;
         this.vetCenterDescription = description;
+
+
+    }
+
+    public VetCenter(String name, String email, String ruc, String phone, String imageProfile, String description, String license, String address){
+        this.vetCenterName = new VetCenterName(name);
+        this.vetCenterEmail = new VetCenterEmail(email);
+        this.vetCenterRUC = new VetCenterRUC(ruc);
+        this.vetCenterPhone = new VetCenterPhone(phone);
+        this.vetCenterImageProfile = imageProfile;
+        this.vetCenterDescription = description;
+        this.license = license;
+        this.address = address;
 
     }
 
@@ -102,11 +133,11 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
         return this.vetCenterEmail.email();
     }
 
-    public Long getRUC(){
+    public String getRUC(){
         return this.vetCenterRUC.vetCenterRUC();
     }
 
-    public Long getPhone(){
+    public String getPhone(){
         return this.vetCenterPhone.getVetCenterPhone();
     }
 
@@ -118,11 +149,11 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
         this.vetCenterEmail = new VetCenterEmail(email);
     }
 
-    public void setPhone(Long phone){
+    public void setPhone(String phone){
         this.vetCenterPhone = new VetCenterPhone(phone);
     }
 
-    public void setRUC(Long ruc){
+    public void setRUC(String ruc){
         this.vetCenterRUC = new VetCenterRUC(ruc);
     }
 
@@ -133,5 +164,9 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
 
     public Long getId() {
         return id;
+    }
+
+    public void setUser(User user){
+        this.user = user;
     }
 }

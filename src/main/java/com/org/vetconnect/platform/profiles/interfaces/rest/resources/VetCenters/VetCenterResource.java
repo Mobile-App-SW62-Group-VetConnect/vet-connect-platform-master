@@ -4,8 +4,8 @@ public record VetCenterResource(
         Long id,
         String name,
         String email,
-        Long ruc,
-        Long phone,
+        String ruc,
+        String phone,
         String imageProfile,
         String description
 ) {
