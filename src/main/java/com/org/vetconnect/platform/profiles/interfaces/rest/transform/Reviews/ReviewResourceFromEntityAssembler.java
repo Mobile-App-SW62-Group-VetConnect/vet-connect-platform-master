@@ -9,10 +9,13 @@ public class ReviewResourceFromEntityAssembler {
     public ReviewResource toResourceFromEntity(Review review) {
         return new ReviewResource(
                 review.getId(),
-                review.getPetOwner().getId(),
                 review.getVetCenter().getId(),
+                review.getPetOwner().getId(),
+                review.getPetOwner().getName(),
+                review.getRating(),
                 review.getComments(),
-                review.getRating()
+                review.getCreatedAt(),
+                review.getUpdatedAt()
         );
     }
 }

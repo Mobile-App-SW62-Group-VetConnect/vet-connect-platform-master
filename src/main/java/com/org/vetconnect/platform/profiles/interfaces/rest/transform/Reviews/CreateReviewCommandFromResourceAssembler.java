@@ -9,10 +9,10 @@ public class CreateReviewCommandFromResourceAssembler {
 
     public CreateReviewCommand toCommandFromResource(CreateReviewResource resource) {
         return new CreateReviewCommand(
-                resource.petOwnerId(),
                 resource.vetCenterId(),
-                resource.comments(),
-                resource.rating()
+                resource.petOwnerId(),
+                resource.rating(),
+                resource.comments()
         );
     }
 }
