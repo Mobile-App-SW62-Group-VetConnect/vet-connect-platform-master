@@ -1,6 +1,7 @@
 package com.org.vetconnect.platform.vetservices.interfaces.rest;
 
 
+import com.org.vetconnect.platform.vetservices.domain.model.commands.DeleteVetServiceCommand;
 import com.org.vetconnect.platform.vetservices.domain.model.queries.GetAllVetServicesQuery;
 import com.org.vetconnect.platform.vetservices.domain.model.queries.GetVetServiceByIdQuery;
 import com.org.vetconnect.platform.vetservices.domain.model.queries.GetVetServicesByVetCenterIdQuery;
@@ -88,6 +89,13 @@ public class VetServicesController {
         if (vetService.isEmpty()) return ResponseEntity.badRequest().build();
         var vetServiceResource = VetServiceResourceFromEntityAssembler.toResourceFromEntity(vetService.get());
         return ResponseEntity.ok(vetServiceResource);
+    }
+
+    @DeleteMapping("/{vetServiceId}")
+    public ResponseEntity<?> deleteVetService(@PathVariable Long vetServiceId) {
+        var deleteServiceCommand = new DeleteVetServiceCommand(vetServiceId);
+        vetServiceCommandService.handle(deleteServiceCommand);
+        return ResponseEntity.ok("Course with given id successfully deleted");
     }
 
 }

@@ -96,11 +96,13 @@ public class VetService extends AuditableAbstractAggregateRoot<VetService> {
      * @param isActive The new status.
      * @return The updated course.
      */
-    public VetService updateInformation(String name, String description, Double price, Integer duration, Boolean isActive){
+    public VetService updateInformation(String name, String description, Double price, Integer duration, ServiceCategory category, List<String> features, Boolean isActive){
         this.name = name;
         this.description = description;
         this.price = price;
         this.duration = duration;
+        this.category = category;
+        this.features = features;
         this.isActive = isActive;
         return this;
     }
