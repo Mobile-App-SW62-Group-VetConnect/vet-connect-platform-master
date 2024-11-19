@@ -3,6 +3,7 @@ package com.org.vetconnect.platform.vetservices.interfaces.rest;
 
 import com.org.vetconnect.platform.vetservices.domain.model.queries.GetAllVetServicesQuery;
 import com.org.vetconnect.platform.vetservices.domain.model.queries.GetVetServiceByIdQuery;
+import com.org.vetconnect.platform.vetservices.domain.model.queries.GetVetServicesByVetCenterIdQuery;
 import com.org.vetconnect.platform.vetservices.domain.services.VetServiceCommandService;
 import com.org.vetconnect.platform.vetservices.domain.services.VetServiceQueryService;
 import com.org.vetconnect.platform.vetservices.interfaces.rest.resources.CreateVetServiceResource;
@@ -68,6 +69,17 @@ public class VetServicesController {
         var vetServiceResource = VetServiceResourceFromEntityAssembler.toResourceFromEntity(vetService.get());
         return ResponseEntity.ok(vetServiceResource);
     }
+
+    @GetMapping("/vet-center/{vetCenterId}")
+    public ResponseEntity<List<VetServiceResource>> getVetServicesByVetCenterId(@PathVariable Long vetCenterId) {
+        var getVetServicesByVetCenterIdQuery = new GetVetServicesByVetCenterIdQuery(vetCenterId);
+        var vetServices = vetServiceQueryService.handle(getVetServicesByVetCenterIdQuery);
+        var vetServiceResources = vetServices.stream()
+                .map(VetServiceResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(vetServiceResources, HttpStatus.OK);
+    }
+
 
     @PutMapping("/{vetServiceId}")
     public ResponseEntity<VetServiceResource> updateVetService(@PathVariable Long vetServiceId, @RequestBody UpdateVetServiceResource resource) {
