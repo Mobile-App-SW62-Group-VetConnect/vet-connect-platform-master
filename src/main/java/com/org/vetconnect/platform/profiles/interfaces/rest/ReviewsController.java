@@ -3,6 +3,7 @@ package com.org.vetconnect.platform.profiles.interfaces.rest;
 import com.org.vetconnect.platform.profiles.domain.model.commands.CreateReviewCommand;
 import com.org.vetconnect.platform.profiles.domain.model.entities.Review;
 import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewsByVetCenterIdQuery;
+import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewsQuery;
 import com.org.vetconnect.platform.profiles.domain.services.ReviewCommandService;
 import com.org.vetconnect.platform.profiles.domain.services.ReviewQueryService;
 import com.org.vetconnect.platform.profiles.interfaces.rest.resources.Reviews.CreateReviewResource;
@@ -63,6 +64,16 @@ public class ReviewsController {
         GetAllReviewsByVetCenterIdQuery getAllReviewsByVetCenterIdQuery = new GetAllReviewsByVetCenterIdQuery(vetCenterId);
 
         List<Review> reviews = reviewQueryService.handle(getAllReviewsByVetCenterIdQuery);
+        List<ReviewResource> reviewResources = reviews.stream()
+                .map(reviewsResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(reviewResources);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ReviewResource>> getAllReviews() {
+        GetAllReviewsQuery getAllReviewsQuery = new GetAllReviewsQuery();
+        List<Review> reviews = reviewQueryService.handle(getAllReviewsQuery);
         List<ReviewResource> reviewResources = reviews.stream()
                 .map(reviewsResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
