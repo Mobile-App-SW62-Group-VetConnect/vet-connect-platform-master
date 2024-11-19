@@ -3,6 +3,7 @@ package com.org.vetconnect.platform.profiles.application.commandServices;
 import com.org.vetconnect.platform.profiles.domain.model.aggregates.PetOwner;
 import com.org.vetconnect.platform.profiles.domain.model.aggregates.VetCenter;
 import com.org.vetconnect.platform.profiles.domain.model.commands.CreateReviewCommand;
+import com.org.vetconnect.platform.profiles.domain.model.commands.DeleteReviewCommand;
 import com.org.vetconnect.platform.profiles.domain.model.entities.Review;
 import com.org.vetconnect.platform.profiles.domain.services.ReviewCommandService;
 import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.PetOwnerRepository;
@@ -44,5 +45,13 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
         // save review
         reviewRepository.save(review);
         return review;
+    }
+
+    @Override
+    public void handle(DeleteReviewCommand command) {
+        if (!reviewRepository.existsById(command.reviewId())) {
+            throw new IllegalArgumentException("Review not found");
+        }
+        reviewRepository.deleteById(command.reviewId());
     }
 }

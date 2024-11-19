@@ -1,6 +1,7 @@
 package com.org.vetconnect.platform.profiles.interfaces.rest;
 
 import com.org.vetconnect.platform.profiles.domain.model.commands.CreateReviewCommand;
+import com.org.vetconnect.platform.profiles.domain.model.commands.DeleteReviewCommand;
 import com.org.vetconnect.platform.profiles.domain.model.entities.Review;
 import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewsByVetCenterIdQuery;
 import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewsQuery;
@@ -11,6 +12,7 @@ import com.org.vetconnect.platform.profiles.interfaces.rest.resources.Reviews.Re
 import com.org.vetconnect.platform.profiles.interfaces.rest.transform.Reviews.CreateReviewCommandFromResourceAssembler;
 import com.org.vetconnect.platform.profiles.interfaces.rest.transform.Reviews.ReviewResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.hibernate.sql.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +80,13 @@ public class ReviewsController {
                 .map(reviewsResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(reviewResources);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteReview(@RequestParam Long reviewId) {
+        DeleteReviewCommand deleteReviewCommand = new DeleteReviewCommand(reviewId);
+        reviewCommandService.handle(deleteReviewCommand);
+        return ResponseEntity.ok("Review successfully deleted");
     }
 
 }
