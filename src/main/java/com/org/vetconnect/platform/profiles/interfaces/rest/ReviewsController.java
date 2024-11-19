@@ -2,7 +2,7 @@ package com.org.vetconnect.platform.profiles.interfaces.rest;
 
 import com.org.vetconnect.platform.profiles.domain.model.commands.CreateReviewCommand;
 import com.org.vetconnect.platform.profiles.domain.model.entities.Review;
-import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewByVetCenterIdQuery;
+import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewsByVetCenterIdQuery;
 import com.org.vetconnect.platform.profiles.domain.services.ReviewCommandService;
 import com.org.vetconnect.platform.profiles.domain.services.ReviewQueryService;
 import com.org.vetconnect.platform.profiles.interfaces.rest.resources.Reviews.CreateReviewResource;
@@ -60,9 +60,9 @@ public class ReviewsController {
 
     @GetMapping("/vet-center/{vetCenterId}")
     public ResponseEntity<List<ReviewResource>> getReviewsByVetCenterId(@PathVariable Long vetCenterId) {
-        GetAllReviewByVetCenterIdQuery getAllReviewByVetCenterIdQuery = new GetAllReviewByVetCenterIdQuery(vetCenterId);
+        GetAllReviewsByVetCenterIdQuery getAllReviewsByVetCenterIdQuery = new GetAllReviewsByVetCenterIdQuery(vetCenterId);
 
-        List<Review> reviews = reviewQueryService.handle(getAllReviewByVetCenterIdQuery);
+        List<Review> reviews = reviewQueryService.handle(getAllReviewsByVetCenterIdQuery);
         List<ReviewResource> reviewResources = reviews.stream()
                 .map(reviewsResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());

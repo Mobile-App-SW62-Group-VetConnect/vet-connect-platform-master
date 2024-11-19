@@ -1,7 +1,7 @@
 package com.org.vetconnect.platform.profiles.application.queryServices;
 
 import com.org.vetconnect.platform.profiles.domain.model.entities.Review;
-import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewByVetCenterIdQuery;
+import com.org.vetconnect.platform.profiles.domain.model.queries.GetAllReviewsByVetCenterIdQuery;
 import com.org.vetconnect.platform.profiles.domain.services.ReviewQueryService;
 import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     }
 
     @Override
-    public List<Review> handle(GetAllReviewByVetCenterIdQuery query) {
+    public List<Review> handle(GetAllReviewsByVetCenterIdQuery query) {
         return reviewRepository.findReviewByVetCenterId(query.vetCenterId());
     }
 }

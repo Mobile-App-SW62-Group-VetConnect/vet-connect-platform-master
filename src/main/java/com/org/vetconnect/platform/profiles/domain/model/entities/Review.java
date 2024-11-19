@@ -2,8 +2,11 @@ package com.org.vetconnect.platform.profiles.domain.model.entities;
 
 import com.org.vetconnect.platform.profiles.domain.model.aggregates.PetOwner;
 import com.org.vetconnect.platform.profiles.domain.model.aggregates.VetCenter;
+import com.org.vetconnect.platform.profiles.domain.model.commands.CreateReviewCommand;
 import com.org.vetconnect.platform.shared.domain.model.entities.AuditableModel;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -18,6 +21,7 @@ public class Review extends AuditableModel {
     private Long id;
 
     // un vet center puede tener varias reviews
+    // ESTO DEBE SER CAMBIADO POR USERID
     @ManyToOne
     @Getter
     @JoinColumn(name="pet_owner_id", nullable = false)
@@ -33,10 +37,17 @@ public class Review extends AuditableModel {
     private String comments;
 
     @Getter
+    @Min(1)
+    @Max(5)
     private int rating;
 
 
     public Review(){
+    }
+
+    public Review(CreateReviewCommand command){
+        this.comments = command.comments();
+        this.rating = command.rating();
     }
 
     public Review(PetOwner petOwner, VetCenter vetCenter, String comments, int rating) {
