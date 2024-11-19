@@ -25,7 +25,10 @@ public class Review extends AuditableModel {
     @ManyToOne
     @Getter
     @JoinColumn(name="pet_owner_id", nullable = false)
+    @JoinColumn(name="pet_owner_name", nullable = false)
     private PetOwner petOwner;
+
+
 
     // una review solo puede pertenecer a un pet owner
     @ManyToOne
@@ -45,10 +48,6 @@ public class Review extends AuditableModel {
     public Review(){
     }
 
-    public Review(CreateReviewCommand command){
-        this.comments = command.comments();
-        this.rating = command.rating();
-    }
 
     public Review(PetOwner petOwner, VetCenter vetCenter, String comments, int rating) {
         this.petOwner = petOwner;
