@@ -11,6 +11,7 @@ import com.org.vetconnect.platform.iam.domain.model.valueobjects.Roles;
 import com.org.vetconnect.platform.iam.domain.services.UserCommandService;
 import com.org.vetconnect.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import com.org.vetconnect.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
+import com.org.vetconnect.platform.profiles.domain.model.aggregates.PetOwner;
 import com.org.vetconnect.platform.profiles.domain.model.aggregates.VetCenter;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterName;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterPhone;
@@ -68,10 +69,19 @@ public class UserCommandServiceImpl implements UserCommandService {
             vetCenter.setVetCenterName(new VetCenterName(command.vetCenterClinicName()));
             vetCenter.setLicense(command.vetCenterLicense());
             vetCenter.setAddress(command.vetCenterAddress());
+            vetCenter.setEmail(user.getEmail());
             vetCenter.setVetCenterPhone(new VetCenterPhone(command.vetCenterPhone()));
             vetCenter.setUser(user);
             vetCenterRepository.save(vetCenter);
         }
+
+        if (hasRole(roles, Roles.CLIENT)) {
+            var petOwner= new PetOwner();
+            petOwner.setName(command.clientName());
+            petOwner.setEmail(user.getEmail());
+            petOwner.setDNI(command.clientDni());
+        }
+
         userRepository.save(user);
 
         System.out.println(command.roles().toString());

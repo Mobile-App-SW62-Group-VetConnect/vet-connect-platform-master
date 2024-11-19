@@ -4,6 +4,7 @@ import com.org.vetconnect.platform.iam.domain.model.aggregates.User;
 import com.org.vetconnect.platform.profiles.domain.model.entities.VetCenterImage;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.*;
 import com.org.vetconnect.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.org.vetconnect.platform.vetservices.domain.model.aggregates.VetService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,9 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "vetCenter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VetService> services = new ArrayList<>();
 
     @Embedded
     @Setter

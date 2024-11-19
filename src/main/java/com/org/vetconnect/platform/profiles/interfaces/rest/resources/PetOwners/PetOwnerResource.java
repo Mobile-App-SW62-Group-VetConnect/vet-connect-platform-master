@@ -4,7 +4,7 @@ public record PetOwnerResource(
         Long id,
         String name,
         String email,
-        Long dni,
+        String dni,
         Long phone,
         String photo
 ) {

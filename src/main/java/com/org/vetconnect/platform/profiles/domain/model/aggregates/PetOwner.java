@@ -41,7 +41,7 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
     private String petOwnerPhoto;
 
 
-    public PetOwner(String name, String email, Long dni, Long phone, String photo){
+    public PetOwner(String name, String email, String dni, Long phone, String photo){
         this.petOwnerName = new PetOwnerName(name);
         this.petOwnerEmail = new PetOwnerEmail(email);
         this.petOwnerDNI = new PetOwnerDNI(dni);
@@ -57,7 +57,7 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
         return this.petOwnerName.getFullName();
     }
 
-    public Long getDNI(){
+    public String getDNI(){
         return this.petOwnerDNI.getDNI();
     }
 
@@ -84,6 +84,10 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
 
     public void setPhone(Long phone){
         this.petOwnerPhone = new PetOwnerPhone(phone);
+    }
+
+    public void setDNI(String dni){
+        this.petOwnerDNI = new PetOwnerDNI(dni);
     }
 
     public void setPhoto(String photo){
