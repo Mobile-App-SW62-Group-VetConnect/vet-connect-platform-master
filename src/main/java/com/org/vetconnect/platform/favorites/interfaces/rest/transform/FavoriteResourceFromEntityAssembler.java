@@ -5,11 +5,7 @@ import com.org.vetconnect.platform.favorites.interfaces.rest.resource.FavoriteRe
 
 public class FavoriteResourceFromEntityAssembler {
     public static FavoriteResource toResourceFromEntity(Favorite entity) {
-        return new FavoriteResource(entity.getIdFavorite(),
-                entity.getUserId(),
-                entity.getVeterinaryId(),
-                entity.getCreatedAt()
-        );
+        return new FavoriteResource(entity.getId(), entity.getPetOwner().getId(), entity.getVetCenter().getId(), entity.getCreatedAt());
     }
 }
 

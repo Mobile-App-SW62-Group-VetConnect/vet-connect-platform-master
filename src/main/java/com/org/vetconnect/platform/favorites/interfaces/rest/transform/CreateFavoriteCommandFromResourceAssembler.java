@@ -5,10 +5,6 @@ import com.org.vetconnect.platform.favorites.interfaces.rest.resource.CreateFavo
 
 public class CreateFavoriteCommandFromResourceAssembler {
     public static CreateFavoriteCommand toCommandFromResource(CreateFavoriteResource resource) {
-        return new CreateFavoriteCommand(resource.idFavorite(),
-                resource.userId(),
-                resource.veterinaryId(),
-                resource.createdAt()
-        );
+        return new CreateFavoriteCommand(resource.userId(), resource.veterinaryId());
     }
 }

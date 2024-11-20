@@ -47,7 +47,7 @@ public class FavoritesController {
     }
 
     @GetMapping("/by-id/{idFavorite}")
-    public ResponseEntity<FavoriteResource> getFavoriteById(@PathVariable String idFavorite){
+    public ResponseEntity<FavoriteResource> getFavoriteById(@PathVariable Long idFavorite){
         var getFavoriteByIdQuery = new GetFavoriteByIdQuery(idFavorite);
         var favorite = favoriteQueryService.handle(getFavoriteByIdQuery);
         if(favorite.isEmpty()) return ResponseEntity.badRequest().build();
@@ -56,7 +56,7 @@ public class FavoritesController {
     }
 
     @GetMapping("/by-user/{userId}")
-    public ResponseEntity<FavoriteResource> getFavoriteByUserId(@PathVariable String userId){
+    public ResponseEntity<FavoriteResource> getFavoriteByUserId(@PathVariable Long userId){
         var getFavoriteByUserIdQuery = new GetFavoriteByUserIdQuery(userId);
         var favorite = favoriteQueryService.handle(getFavoriteByUserIdQuery);
         if(favorite.isEmpty()) return ResponseEntity.badRequest().build();
@@ -79,7 +79,7 @@ public class FavoritesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFavorite(@PathVariable String id) {
+    public ResponseEntity<Void> deleteFavorite(@PathVariable Long id) {
         try {
             Optional<Favorite> deletedFavorite = favoriteCommandService.handle(new DeleteFavoriteByIdCommand(id));
             return deletedFavorite.isPresent() ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();

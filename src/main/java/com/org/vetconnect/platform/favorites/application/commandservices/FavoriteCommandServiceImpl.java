@@ -6,6 +6,8 @@ import com.org.vetconnect.platform.favorites.domain.model.commands.DeleteFavorit
 import com.org.vetconnect.platform.favorites.domain.model.exceptions.ResourceNotFoundException;
 import com.org.vetconnect.platform.favorites.domain.services.FavoriteCommandService;
 import com.org.vetconnect.platform.favorites.infrastructure.persistence.jpa.respositories.FavoriteRepository;
+import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.PetOwnerRepository;
+import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.VetCenterRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -15,14 +17,27 @@ import java.util.Optional;
 public class FavoriteCommandServiceImpl implements FavoriteCommandService {
 
     private final FavoriteRepository favoriteRepository;
+    private final PetOwnerRepository petOwnerRepository;
+    private final VetCenterRepository vetCenterRepository;
 
-    public FavoriteCommandServiceImpl(FavoriteRepository favoriteRepository) {
+
+    public FavoriteCommandServiceImpl(FavoriteRepository favoriteRepository, PetOwnerRepository petOwnerRepository, VetCenterRepository vetCenterRepository) {
         this.favoriteRepository = favoriteRepository;
+        this.petOwnerRepository = petOwnerRepository;
+        this.vetCenterRepository = vetCenterRepository;
     }
 
     @Override
     public Optional<Favorite> handle(CreateFavoriteCommand command) {
-        var favorite = new Favorite(command);
+        var petOwner = petOwnerRepository.findById(command.userId());
+        if(petOwner.isEmpty()){
+            throw new ResourceNotFoundException("Pet Owner with id " + command.userId() + " not found.");
+        }
+        var vetCenter = vetCenterRepository.findById(command.veterinaryId());
+        if(vetCenter.isEmpty()){
+            throw new ResourceNotFoundException("Vet Center with id " + command.veterinaryId() + " not found.");
+        }
+        var favorite = new Favorite(petOwner.get(), vetCenter.get());
         var createdFavorite = favoriteRepository.save(favorite);
         return Optional.of(createdFavorite);
 

@@ -1,13 +1,9 @@
 package com.org.vetconnect.platform.favorites.domain.model.aggregates;
 
-import com.org.vetconnect.platform.favorites.domain.model.commands.CreateFavoriteCommand;
-import com.org.vetconnect.platform.favorites.domain.model.valueobjects.IdFavorite;
-import com.org.vetconnect.platform.favorites.domain.model.valueobjects.UserId;
-import com.org.vetconnect.platform.favorites.domain.model.valueobjects.VeterinaryId;
+import com.org.vetconnect.platform.profiles.domain.model.aggregates.PetOwner;
+import com.org.vetconnect.platform.profiles.domain.model.aggregates.VetCenter;
 import com.org.vetconnect.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,28 +11,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Favorite extends AuditableAbstractAggregateRoot<Favorite> {
-    @Embedded
-    private IdFavorite idFavorite;
 
-    @Embedded
-    private UserId userId;
 
-    @Embedded
-    private VeterinaryId veterinaryId;
+    @ManyToOne
+    @JoinColumn(name = "pet_owner_id")
+    private PetOwner petOwner;
+
+    @ManyToOne
+    @JoinColumn(name = "vet_center_id")
+    private VetCenter vetCenter;
 
     public Favorite() {
     }
 
-    public Favorite(IdFavorite idFavorite, UserId userId, VeterinaryId veterinaryId) {
-        this.idFavorite = idFavorite;
-        this.userId = userId;
-        this.veterinaryId = veterinaryId;
-    }
-
-    public Favorite(CreateFavoriteCommand command) {
-        this.idFavorite = new IdFavorite(command.idFavorite());
-        this.userId = new UserId(command.userId());
-        this.veterinaryId = new VeterinaryId(command.veterinaryId());
+    public Favorite(PetOwner petOwner, VetCenter vetCenter) {
+        this.petOwner = petOwner;
+        this.vetCenter = vetCenter;
     }
 
 }
