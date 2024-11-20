@@ -1,5 +1,6 @@
 package com.org.vetconnect.platform.profiles.domain.model.aggregates;
 
+import com.org.vetconnect.platform.iam.domain.model.aggregates.User;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.PetOwnerDNI;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.PetOwnerEmail;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.PetOwnerName;
@@ -40,6 +41,11 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
     @Setter
     private String petOwnerPhoto;
 
+    @Setter
+    @Getter
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     public PetOwner(String name, String email, String dni, String phone, String photo){
         this.petOwnerName = new PetOwnerName(name);
@@ -102,4 +108,5 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
     public void setId(Long id){
         this.id = id;
     }
+
 }

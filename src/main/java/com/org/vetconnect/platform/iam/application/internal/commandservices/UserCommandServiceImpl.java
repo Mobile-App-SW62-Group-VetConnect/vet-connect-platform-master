@@ -84,6 +84,7 @@ public class UserCommandServiceImpl implements UserCommandService {
             petOwner.setEmail(user.getEmail());
             petOwner.setDNI(command.clientDni());
             petOwner.setPhone(command.clientPhone());
+            petOwner.setUser(user);
             petOwnerRepository.save(petOwner);
         }
 

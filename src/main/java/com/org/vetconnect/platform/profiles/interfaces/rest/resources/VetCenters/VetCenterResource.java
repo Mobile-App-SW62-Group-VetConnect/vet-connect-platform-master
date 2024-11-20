@@ -6,6 +6,8 @@ import java.util.List;
 
 public record VetCenterResource(
         Long id,
+
+        Long user_id,
         String name,
         String address,
         String imageProfile,

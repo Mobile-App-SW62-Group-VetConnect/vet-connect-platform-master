@@ -44,6 +44,8 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
     private List<VetCenterImage> images = new ArrayList<>();
 
 
+    @Setter
+    @Getter
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
     private User user;
@@ -170,7 +172,4 @@ public class VetCenter extends AuditableAbstractAggregateRoot<VetCenter> {
         return id;
     }
 
-    public void setUser(User user){
-        this.user = user;
-    }
 }

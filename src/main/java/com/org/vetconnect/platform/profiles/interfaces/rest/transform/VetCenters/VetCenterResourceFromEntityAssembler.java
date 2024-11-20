@@ -18,6 +18,7 @@ public class VetCenterResourceFromEntityAssembler {
 
         return new VetCenterResource(
                 vetCenter.getId(),
+                vetCenter.getUser().getId(),
                 vetCenter.getName(),
                 vetCenter.getAddress(),
                 vetCenter.getVetCenterImageProfile(),
