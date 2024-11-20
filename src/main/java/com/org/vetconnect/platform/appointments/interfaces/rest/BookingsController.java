@@ -1,4 +1,4 @@
-package com.org.vetconnect.platform.appointments.interfaces.rest;
+/*package com.org.vetconnect.platform.appointments.interfaces.rest;
 
 import com.org.vetconnect.platform.appointments.domain.model.queries.GetBookingByIdQuery;
 import com.org.vetconnect.platform.appointments.domain.model.queries.GetBookingsByTypeServiceInWeekQuery;
@@ -93,3 +93,4 @@ public class BookingsController {
         return new ResponseEntity<>(bookingResources, HttpStatus.OK);
     }
 }
+*/
