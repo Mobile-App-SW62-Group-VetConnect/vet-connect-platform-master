@@ -43,7 +43,7 @@ public class OpenApiConfiguration {
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
         openApi
-                .servers(List.of(new Server().url("https://vet-connect-platform-master-production-de97.up.railway.app")));
+                .addServersItem(new Server().url("https://vet-connect-platform-master-production-de97.up.railway.app"));
         return openApi;
     }
 }
