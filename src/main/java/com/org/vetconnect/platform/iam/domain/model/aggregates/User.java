@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +22,7 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     private String email;
 
     @Getter
+    @Setter
     @NotBlank
     @Size(max = 120)
     private String password;

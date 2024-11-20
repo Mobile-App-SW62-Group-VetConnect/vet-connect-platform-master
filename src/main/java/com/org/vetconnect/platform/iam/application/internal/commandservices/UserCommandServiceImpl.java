@@ -112,4 +112,28 @@ public class UserCommandServiceImpl implements UserCommandService {
     private boolean hasRole(List<Role> roles, Roles targetRole) {
         return roles.stream().anyMatch(role -> role.getName().equals(targetRole));
     }
+
+    @Override
+    @Transactional
+    public Optional<User> changePassword(Long userId, String oldPassword, String newPassword) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+
+        User user = userOptional.get();
+
+
+        if (!hashingService.matches(oldPassword, user.getPassword())) {
+            throw new RuntimeException("Old password is incorrect");
+        }
+
+
+        user.setPassword(hashingService.encode(newPassword));
+
+        userRepository.save(user);
+
+        return Optional.of(user);
+    }
+
 }

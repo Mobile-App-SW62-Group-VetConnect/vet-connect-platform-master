@@ -1,10 +1,7 @@
 package com.org.vetconnect.platform.iam.interfaces.rest;
 
 import com.org.vetconnect.platform.iam.domain.services.UserCommandService;
-import com.org.vetconnect.platform.iam.interfaces.rest.resources.AuthenticatedUserResource;
-import com.org.vetconnect.platform.iam.interfaces.rest.resources.SignInResource;
-import com.org.vetconnect.platform.iam.interfaces.rest.resources.SignUpResource;
-import com.org.vetconnect.platform.iam.interfaces.rest.resources.UserResource;
+import com.org.vetconnect.platform.iam.interfaces.rest.resources.*;
 import com.org.vetconnect.platform.iam.interfaces.rest.transform.AuthenticatedUserResourceFromEntityAssembler;
 import com.org.vetconnect.platform.iam.interfaces.rest.transform.SignInCommandFromResourceAssembler;
 import com.org.vetconnect.platform.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
@@ -68,5 +65,19 @@ public class AuthenticationController {
         var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
         return new ResponseEntity<>(userResource, HttpStatus.CREATED);
 
+    }
+
+    @PutMapping("/{userId}/change-password")
+    public ResponseEntity<UserResource> changePassword(
+            @PathVariable Long userId,
+            @RequestBody ChangePasswordResource changePasswordResource) {
+        var user = userCommandService.changePassword(userId, changePasswordResource.oldPassword(), changePasswordResource.newPassword());
+
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+        return ResponseEntity.ok(userResource);
     }
 }

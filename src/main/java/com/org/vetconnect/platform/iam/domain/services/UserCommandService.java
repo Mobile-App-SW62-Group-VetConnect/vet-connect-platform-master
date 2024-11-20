@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import java.util.Optional;
 
 public interface UserCommandService {
+    Optional<User> changePassword(Long userId, String oldPassword, String newPassword);
     Optional<User> handle(SignUpCommand command);
     Optional<ImmutablePair<User, String>> handle(SignInCommand command);
 }
