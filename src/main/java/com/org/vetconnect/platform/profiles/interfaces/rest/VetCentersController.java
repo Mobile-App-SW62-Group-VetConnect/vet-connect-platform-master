@@ -36,7 +36,7 @@ public class VetCentersController {
     }
 
     // crear centro veterinario
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<VetCenterResource> createVetCenter(@RequestBody CreateVetCenterResource resource) {
         var createVetCenterCommand = CreateVetCenterCommandFromResourceAssembler.toCommandFromResource(resource);
         var vetCenterId = vetCenterCommandService.handle(createVetCenterCommand);
@@ -50,7 +50,7 @@ public class VetCentersController {
         }
         var vetCenterResource = VetCenterResourceFromEntityAssembler.toResourceFromEntity(vetCenter.get());
         return new ResponseEntity<>(vetCenterResource, HttpStatus.CREATED);
-    }
+    }*/
 
     // obtener centro veterinario por id
     @GetMapping("/{vetCenterId}")

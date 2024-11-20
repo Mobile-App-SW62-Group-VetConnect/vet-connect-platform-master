@@ -4,8 +4,8 @@ public record UpdatePetOwnerCommand(
         Long id,
         String name,
         String email,
-        Long dni,
-        Long phone,
+        String dni,
+        String phone,
         String photo
 ) {
 }

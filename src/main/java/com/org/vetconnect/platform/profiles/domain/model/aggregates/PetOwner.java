@@ -1,5 +1,6 @@
 package com.org.vetconnect.platform.profiles.domain.model.aggregates;
 
+import com.org.vetconnect.platform.iam.domain.model.aggregates.User;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.PetOwnerDNI;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.PetOwnerEmail;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.PetOwnerName;
@@ -40,8 +41,13 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
     @Setter
     private String petOwnerPhoto;
 
+    @Setter
+    @Getter
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
-    public PetOwner(String name, String email, Long dni, Long phone, String photo){
+    public PetOwner(String name, String email, String dni, String phone, String photo){
         this.petOwnerName = new PetOwnerName(name);
         this.petOwnerEmail = new PetOwnerEmail(email);
         this.petOwnerDNI = new PetOwnerDNI(dni);
@@ -57,7 +63,7 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
         return this.petOwnerName.getFullName();
     }
 
-    public Long getDNI(){
+    public String getDNI(){
         return this.petOwnerDNI.getDNI();
     }
 
@@ -65,7 +71,7 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
         return this.petOwnerEmail.email();
     }
 
-    public Long getPhone(){
+    public String getPhone(){
         return this.petOwnerPhone.getPhone();
     }
 
@@ -82,8 +88,12 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
         this.petOwnerEmail = new PetOwnerEmail(email);
     }
 
-    public void setPhone(Long phone){
+    public void setPhone(String phone){
         this.petOwnerPhone = new PetOwnerPhone(phone);
+    }
+
+    public void setDNI(String dni){
+        this.petOwnerDNI = new PetOwnerDNI(dni);
     }
 
     public void setPhoto(String photo){
@@ -98,4 +108,5 @@ public class PetOwner extends AuditableAbstractAggregateRoot<PetOwner> {
     public void setId(Long id){
         this.id = id;
     }
+
 }

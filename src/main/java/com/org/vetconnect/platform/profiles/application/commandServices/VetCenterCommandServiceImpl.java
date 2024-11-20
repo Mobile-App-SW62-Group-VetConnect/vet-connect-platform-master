@@ -63,10 +63,21 @@ public class VetCenterCommandServiceImpl implements VetCenterCommandService {
         }
 
         // si el phone es diferente de null, de 0 y no esta vacio, actualiza el phone
-        if (command.phone() != null && command.phone() != 0) {
+        if (command.phone() != null && !command.phone().isBlank()) {
             vetCenter.setVetCenterPhone(new VetCenterPhone(command.phone()));
         }
 
+        if (command.phone() != null && !command.phone().isBlank()) {
+            vetCenter.setVetCenterPhone(new VetCenterPhone(command.phone()));
+        }
+
+        if (command.address() != null && !command.address().isBlank()) {
+            vetCenter.setAddress(command.address());
+        }
+
+        if (command.businessHours() != null && !command.businessHours().isEmpty()) {
+            vetCenter.setBusinessHours(command.businessHours());
+        }
         /**
          * para guardar sin validaciones simplemente se pondria:
          * vetCenter.setName(command.name());

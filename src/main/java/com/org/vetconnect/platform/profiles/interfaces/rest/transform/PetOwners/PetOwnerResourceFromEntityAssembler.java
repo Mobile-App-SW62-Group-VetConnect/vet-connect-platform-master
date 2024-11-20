@@ -8,6 +8,7 @@ public class PetOwnerResourceFromEntityAssembler {
     public static PetOwnerResource toResourceFromEntity(PetOwner petOwner){
         return new PetOwnerResource(
                 petOwner.getId(),
+                petOwner.getUser().getId(),
                 petOwner.getName(),
                 petOwner.getEmail(),
                 petOwner.getDNI(),

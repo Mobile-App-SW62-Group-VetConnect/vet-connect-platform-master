@@ -1,20 +1,20 @@
 package com.org.vetconnect.platform.profiles.domain.model.valueobjects;
 
-public record PetOwnerPhone(Long petOwnerPhone) {
+public record PetOwnerPhone(String petOwnerPhone) {
     public PetOwnerPhone() {
-        this(null);
+        this("");
     }
 
     // phone not null and phone length is 9
-    public PetOwnerPhone(Long petOwnerPhone) {
-        if (petOwnerPhone != null && petOwnerPhone.toString().length() == 9) {
+    public PetOwnerPhone(String petOwnerPhone) {
+        if (petOwnerPhone != null && petOwnerPhone.length() == 9) {
             this.petOwnerPhone = petOwnerPhone;
         } else {
             throw new IllegalArgumentException("Phone must be 9 digits");
         }
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return petOwnerPhone;
     }
 }

@@ -12,6 +12,6 @@ public class AuthenticatedUserResourceFromEntityAssembler {
                 .findFirst()
                 .orElse("ROLE_USER");
 
-        return new AuthenticatedUserResource(user.getId(), user.getUsername(), token, role);
+        return new AuthenticatedUserResource(user.getId(), user.getEmail(), token, role);
     }
 }
