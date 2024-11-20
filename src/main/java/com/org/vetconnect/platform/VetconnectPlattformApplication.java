@@ -14,5 +14,5 @@ public class VetconnectPlattformApplication {
     public static void main(String[] args) {
         SpringApplication.run(VetconnectPlattformApplication.class, args);
     }
-    
+
 }
