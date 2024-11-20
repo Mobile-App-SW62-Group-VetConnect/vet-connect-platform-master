@@ -43,18 +43,7 @@ public class OpenApiConfiguration {
                                         .bearerFormat("JWT")));
         return openApi;
     }
-    @Bean
-    public WebMvcConfigurer corsConfigurer(){
-        return new WebMvcConfigurer(){
-            @Override
-            public void addCorsMappings(CorsRegistry registry){
-                registry.addMapping("/api/v1/**")
-                        .allowedOrigins("http://vet-connect-platform-master-production-de97.up.railway.app/")
-                        .allowedMethods("GET","POST","PUT","DELETE")
-                        .maxAge(3600);
-            }
-        };
-    }
+
 
 
 }
