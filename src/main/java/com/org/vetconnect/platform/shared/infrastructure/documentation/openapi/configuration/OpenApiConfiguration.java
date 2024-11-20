@@ -49,7 +49,7 @@ public class OpenApiConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/api/v1/**")
-                        .allowedOrigins("https://vet-connect-platform-master-production-de97.up.railway.app/")
+                        .allowedOrigins("http://vet-connect-platform-master-production-de97.up.railway.app/")
                         .allowedMethods("GET","POST","PUT","DELETE")
                         .maxAge(3600);
             }
