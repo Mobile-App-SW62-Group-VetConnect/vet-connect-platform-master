@@ -68,12 +68,14 @@ public class WebSecurityConfiguration {
 
     @Bean
     public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOriginPattern("*"); // Permite todos los orígenes
+        corsConfiguration.addAllowedMethod("*"); // Permite todos los métodos (GET, POST, etc.)
+        corsConfiguration.addAllowedHeader("*"); // Permite todos los encabezados
+        corsConfiguration.setAllowCredentials(true); // Permitir cookies y credenciales (opcional)
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-        config.setAllowedHeaders(List.of("*"));
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", corsConfiguration); // Aplica la configuración a todas las rutas
         return new CorsFilter(source);
     }
 
