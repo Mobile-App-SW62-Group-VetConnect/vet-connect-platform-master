@@ -16,6 +16,7 @@ import com.org.vetconnect.platform.profiles.domain.model.aggregates.VetCenter;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterName;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterPhone;
 import com.org.vetconnect.platform.profiles.domain.model.valueobjects.VetCenterRUC;
+import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.PetOwnerRepository;
 import com.org.vetconnect.platform.profiles.infrastructure.persistence.jpa.repositories.VetCenterRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
@@ -31,15 +32,17 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
     private final HashingService hashingService;
     private final VetCenterRepository vetCenterRepository;
+    private final PetOwnerRepository petOwnerRepository;
     private final TokenService tokenService;
     private final RoleRepository roleRepository;
 
-    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository,VetCenterRepository vetCenterRepository) {
+    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository,VetCenterRepository vetCenterRepository, PetOwnerRepository petOwnerRepository) {
         this.userRepository = userRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
         this.roleRepository = roleRepository;
         this.vetCenterRepository = vetCenterRepository;
+        this.petOwnerRepository = petOwnerRepository;
     }
 
     @Override
@@ -80,6 +83,8 @@ public class UserCommandServiceImpl implements UserCommandService {
             petOwner.setName(command.clientName());
             petOwner.setEmail(user.getEmail());
             petOwner.setDNI(command.clientDni());
+            petOwner.setPhone(command.clientPhone());
+            petOwnerRepository.save(petOwner);
         }
 
         userRepository.save(user);

@@ -67,7 +67,7 @@ public class PetOwnerCommandServiceImpl implements PetOwnerCommandService {
             petOwner.setPetOwnerEmail(new PetOwnerEmail(command.email()));
         }
         // si el phone es diferente de null, de 0 y no esta vacio, actualiza el phone
-        if (command.phone() != null && command.phone() != 0 ) {
+        if (command.phone() != null && !command.phone().equals("string") && !command.phone().isEmpty() ) {
             petOwner.setPetOwnerPhone(new PetOwnerPhone(command.phone()));
         }
 

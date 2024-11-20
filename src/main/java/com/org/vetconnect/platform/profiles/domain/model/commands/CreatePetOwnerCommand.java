@@ -4,7 +4,7 @@ public record CreatePetOwnerCommand(
         String name,
         String email,
         String dni,
-        Long phone,
+        String phone,
         String photo
 ) {
 }
